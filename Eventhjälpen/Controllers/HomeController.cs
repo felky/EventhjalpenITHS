@@ -29,6 +29,27 @@ namespace Eventhjälpen.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult LoginAction(string inputMail, string inputPassword)
+        {
+            Hasher hs = new Hasher();
+            var hashedPassword = hs.GetHashPw(inputPassword);
+
+            using (TranbarDBOContext tbx = new TranbarDBOContext())
+            {
+                var pass = tbx.Users.Where(x => x.Password == hashedPassword).ToString();
+                var username = tbx.Users.Where(x => x.Email == inputMail).ToString();
+
+                if (hashedPassword == pass && inputMail == username)
+                {
+                    return View();
+                }
+
+            }
+
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
