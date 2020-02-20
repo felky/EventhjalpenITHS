@@ -19,60 +19,62 @@ namespace Eventhjälpen.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]")]
         public IActionResult Login()
         {
-            return View();
+            return View(new VMLogin());
         }
 
         [HttpPost]
-        public ActionResult LoginAction(string inputMail, string inputPassword)
+        [Route("[controller]")]
+        public IActionResult Login(VMLogin vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                System.Diagnostics.Debug.WriteLine("Failed Valid");
+
+                return View();
+            } 
+
+            if(vm.Email != null && vm.Password != null)
+            {
+                System.Diagnostics.Debug.WriteLine("Trying to log in");
+
+                if (LoginAction(vm.Email, vm.Password))
+                {
+                    System.Diagnostics.Debug.WriteLine("Success");
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            System.Diagnostics.Debug.WriteLine("Could not log in");
+
+            return View();
+        }
+
+        public bool LoginAction(string inputMail, string inputPassword)
         {
             Hasher hs = new Hasher();
             var hashedPassword = hs.GetHashPw(inputPassword);
 
             using (TranbarDBOContext tbx = new TranbarDBOContext())
             {
-                var pass = tbx.Users.Where(x => x.Password == hashedPassword).ToString();
-                var username = tbx.Users.Where(x => x.Email == inputMail).ToString();
+                System.Diagnostics.Debug.WriteLine(tbx);
 
-                if (hashedPassword == pass && inputMail == username)
+                var pass = tbx.Users.FirstOrDefault(x => x.Password == hashedPassword).ToString();
+                var email = tbx.Users.FirstOrDefault(x => x.Email == inputMail).ToString();
+
+                if (email != null && pass != null)
                 {
-                    return View();
-                }
-
-            }
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LoginPage(LoginModel loginVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            try
-            {
-                if (loginVM != null)
+                    System.Diagnostics.Debug.WriteLine("Success!");
+                    return true;
+                } else
                 {
-                    var json = JsonConvert.SerializeObject(loginVM);
-                    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
-                    {
-                        HttpResponseMessage response = await _client.PostAsync("https://localhost:44367/User/Login", stringContent);
-                        if (bool.Parse(await response.Content.ReadAsStringAsync()))
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
+                    System.Diagnostics.Debug.WriteLine("L Failed");
+                    return false;
                 }
             }
-            catch
-            {
-
-            }
-            return View();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eventhjälpen.Models
 {
-    public class LoginModel
+    public class VMLogin
     {
         [Required]
         public string Email { get; set; }

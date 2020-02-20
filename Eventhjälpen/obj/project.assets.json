@@ -2521,7 +2521,10 @@
         },
         "runtime": {
           "bin/placeholder/EventhjälpenDB.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

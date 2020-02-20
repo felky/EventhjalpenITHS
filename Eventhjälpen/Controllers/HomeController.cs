@@ -21,9 +21,11 @@ namespace Eventhjälpen.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
+        
         public IActionResult Login()
         {
             return View();
