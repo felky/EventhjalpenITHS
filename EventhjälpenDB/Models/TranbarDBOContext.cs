@@ -30,7 +30,7 @@ namespace Eventhjälpen.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\GAMERPC\\TranbarDBO.mdf;Database=TranbarDBO;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;Database=TranbarDBO;Trusted_Connection=True;");
             }
         }
 

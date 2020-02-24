@@ -1,0 +1,20 @@
+﻿@model List<Recipe>
+@{
+    ViewData["Title"] = "Recepies";
+}
+
+<h1>Recepies</h1>
+
+<div class="card-deck">
+@foreach (var item in Model)
+    {
+        <div class="card">
+            <img class="card-img-top" src="https://images-gmi-pmc.edge-generalmills.com/1e24b5e7-e3e3-43ce-b737-a2215397f006.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@item.RecipeName</h5>
+                <p class="card-text">@item.RecipeType</p>
+                <a asp-controller="Recipe" asp-action="ViewRecipe" asp-route-id="@item.Id">Gå till recept</a>
+            </div>
+        </div>
+    }
+</div>

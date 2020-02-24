@@ -175,6 +175,9 @@ namespace Eventhjälpen.Migrations
                     b.Property<int?>("EstimatedTime")
                         .HasColumnType("int");
 
+                    b.Property<string>("RecepieImageURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RecipeName")
                         .HasColumnType("varchar(255)")
                         .HasMaxLength(255)

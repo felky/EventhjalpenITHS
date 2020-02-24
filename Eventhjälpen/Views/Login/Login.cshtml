@@ -5,13 +5,13 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1>Logga in</h1>
 
 <form asp-action="Login" method="POST">
     <div class="form-group">
         <label asp-for="Email">E-postadress</label>
         <input asp-for="Email" type="email" class="form-control" aria-describedby="emailHelp">
-        <small id="emailHelp" class="form-text text-muted">Vi delar inte din epost med någon.</small>
+        <small id="emailHelp" class="form-text text-muted">Vi delar inte din e-post med någon.</small>
     </div>
     <div class="form-group">
         <label asp-for="Password">Lösenord</label>
@@ -19,3 +19,6 @@
     </div>
     <button type="submit" class="btn btn-success">Logga In</button>
 </form>
+
+<br />
+<a class="btn-link" asp-area="" asp-controller="Login" asp-action="Register">Har du inget konto? Klicka här för att registrera dig.</a>

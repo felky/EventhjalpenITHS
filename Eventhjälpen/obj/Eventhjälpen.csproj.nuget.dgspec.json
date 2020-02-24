@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\Eventhjälpen\\Eventhjälpen.csproj": {}
+    "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\Eventhjälpen\\Eventhjälpen.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\EventhjälpenDB.csproj": {
+    "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\EventhjälpenDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\EventhjälpenDB.csproj",
+        "projectUniqueName": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\EventhjälpenDB.csproj",
         "projectName": "EventhjälpenDB",
-        "projectPath": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\EventhjälpenDB.csproj",
-        "packagesPath": "C:\\Users\\GAMERPC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\obj\\",
+        "projectPath": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\EventhjälpenDB.csproj",
+        "packagesPath": "C:\\Users\\flixa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\GAMERPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+          "C:\\Users\\flixa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -73,23 +71,21 @@
         }
       }
     },
-    "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\Eventhjälpen\\Eventhjälpen.csproj": {
+    "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\Eventhjälpen\\Eventhjälpen.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\Eventhjälpen\\Eventhjälpen.csproj",
+        "projectUniqueName": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\Eventhjälpen\\Eventhjälpen.csproj",
         "projectName": "Eventhjälpen",
-        "projectPath": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\Eventhjälpen\\Eventhjälpen.csproj",
-        "packagesPath": "C:\\Users\\GAMERPC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\Eventhjälpen\\obj\\",
+        "projectPath": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\Eventhjälpen\\Eventhjälpen.csproj",
+        "packagesPath": "C:\\Users\\flixa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\Eventhjälpen\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\GAMERPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+          "C:\\Users\\flixa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -101,8 +97,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\EventhjälpenDB.csproj": {
-                "projectPath": "C:\\Users\\GAMERPC\\source\\repos\\Eventhjälpen\\EventhjälpenDB\\EventhjälpenDB.csproj"
+              "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\EventhjälpenDB.csproj": {
+                "projectPath": "C:\\Users\\flixa\\Desktop\\Tranbär\\EventhjalpenITHS\\EventhjälpenDB\\EventhjälpenDB.csproj"
               }
             }
           }
@@ -121,6 +117,10 @@
               "version": "[3.1.1, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[3.1.1, )"
             },

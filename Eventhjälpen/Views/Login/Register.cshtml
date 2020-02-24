@@ -1,0 +1,34 @@
+﻿@model Eventhjälpen.Models.VMRegister
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+    <h1>Registrera dig</h1>
+
+    <form asp-action="Register" method="POST">
+        <div class="form-group">
+            <label asp-for="FirstName">Förnamn</label>
+            <input asp-for="FirstName" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">Efternamn</label>
+            <input asp-for="LastName" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">E-post</label>
+            <input asp-for="Email" type="email" class="form-control" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">Vi delar inte din e-post med någon.</small>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber">Telefon</label>
+            <input asp-for="PhoneNumber" type="tel" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Lösenord</label>
+            <input asp-for="Password" type="password" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Registerera</button>
+    </form>
+
