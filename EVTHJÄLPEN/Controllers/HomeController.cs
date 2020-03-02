@@ -23,13 +23,13 @@ namespace EVTHJÄLPEN.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            Random rng = new Random();
-            int recRecepie = 1;
+            Random rng = new Random(DateTime.Today.Day);
 
             try
             {
                 using (ApplicationDbContext ctx = new ApplicationDbContext())
                 {
+                    int recRecepie = rng.Next(1, ctx.Recipe.Count());
                     List<Recipe> recipeList = ctx.Recipe.ToList();
                     Recipe loadedRecipe = recipeList.FirstOrDefault(x => x.Id == recRecepie);
                     return View(loadedRecipe);

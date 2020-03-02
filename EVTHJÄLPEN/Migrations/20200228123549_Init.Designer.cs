@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EVTHJÄLPEN.Data.Migrations
+namespace EVTHJÄLPEN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200227100200_ChangeEvent")]
-    partial class ChangeEvent
+    [Migration("20200228123549_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,12 +111,13 @@ namespace EVTHJÄLPEN.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID")
                         .HasColumnType("int")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EventType")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
+                    b.Property<string>("EventName")
+                        .HasColumnName("EventName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
