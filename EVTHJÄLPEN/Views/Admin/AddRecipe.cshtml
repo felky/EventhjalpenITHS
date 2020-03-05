@@ -1,0 +1,33 @@
+﻿@model NewRecipeVM
+@{
+    ViewData["Title"] = "AddRecipe";
+}
+
+<form asp-controller="Admin" asp-action="AddRecipe">
+    <fieldset>
+        <h1 class="display-4">Add new recipe:</h1>
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipe name" aria-describedby="basic-addon2">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipe type" aria-describedby="basic-addon2">
+        </div>
+
+        <input type="text" class="form-control" placeholder="Antal ingredienser:" value="@Model.Ingredients" asp-route-ingredients="@Model.Ingredients" />
+        <div class="d-flex">
+            <ul class="list-group flex-column">
+                @for (int i = 0; i <= Model.Ingredients; i++)
+                {
+                    <li class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Ingrediens" aria-describedby="basic-addon2">
+                    </li>
+                }
+            </ul>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="submit" value="Submit" class="submit" />
+        </div>
+    </fieldset>
+</form>

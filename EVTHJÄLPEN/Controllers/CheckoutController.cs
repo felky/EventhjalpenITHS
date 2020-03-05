@@ -15,5 +15,12 @@ namespace EVTHJÄLPEN.Controllers
         {
             return View(vm);
         }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public IActionResult ProceedToCheckout([Bind("Product")] List<IngredientToCart> ic)
+        {
+            return RedirectToAction("BeginCheckout", "Checkout");
+        }
     }
 }

@@ -6,15 +6,12 @@
 <a class="btn btn-primary" href="#" role="button">Fortsätt handla </a>
 
 <div class="col-md-6 " (style="border-left-width:)">
-
-
     @foreach (var item in Model.Productslist)
     {<ul class="align-content-lg-stretch">
             <li class="list-group-item">
-
-                @item.ProductName  @item.Quantity @item.Price Kr
+                <p> @item.ProductName <span style="color: red">@item.Quantity</span> <span style="color: aqua">@item.Price</span>:-</p>
             </li>
-        </ul>}
+     </ul>}
 </div>
 
 
