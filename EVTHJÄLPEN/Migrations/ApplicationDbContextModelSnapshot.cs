@@ -4,16 +4,14 @@ using EVTHJÄLPEN.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EVTHJÄLPEN.Data.Migrations
+namespace EVTHJÄLPEN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200225130627_CreateTranbarDB")]
-    partial class CreateTranbarDB
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,17 +109,13 @@ namespace EVTHJÄLPEN.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID")
                         .HasColumnType("int")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("EventName")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
-
-                    b.Property<string>("EventType")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
+                        .HasColumnName("EventName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

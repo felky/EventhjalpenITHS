@@ -67,10 +67,13 @@ namespace EVTHJÄLPEN.Data
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.EventName)
+                entity.Property(e => e.Id)
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EventName).HasColumnName("EventName");
+
+           
             });
 
             modelBuilder.Entity<Orderdetails>(entity =>
