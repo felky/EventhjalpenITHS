@@ -79,10 +79,11 @@ namespace EVTHJÄLPEN.Controllers
                     vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
                     vp.Productslist.Add(si);
                 }
-
+                
                 }
                 Response.Cookies.Append("Varukorg", cookieString);
             }
+            
             return View(vp);
         }
 
