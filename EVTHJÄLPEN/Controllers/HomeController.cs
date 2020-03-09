@@ -83,7 +83,7 @@ namespace EVTHJÄLPEN.Controllers
                 }
                 Response.Cookies.Append("Varukorg", cookieString);
             }
-            
+           
             return View(vp);
         }
 
