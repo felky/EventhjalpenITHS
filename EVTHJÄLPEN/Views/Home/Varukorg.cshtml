@@ -1,7 +1,9 @@
-﻿@model ViewProducts
+﻿@model ViewProductAndReceipe
+
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
 
 @{
     ViewData["Title"] = "Varukorg";
@@ -76,6 +78,59 @@ else
 <p><b>TotalSumma:</b> @Math.Round(@Model.TotalSum, 2) Kr</p>
 
 <br />
+
+
+
+<div class="container">
+    <h1 class="display-4">@Model.RecepieProductView.RecipeName</h1>
+
+    <hr class="my-4">
+    <br />
+    <br />
+
+    <div class="row" style="padding:15px;">
+        <div class="col-md-6">
+            <h4>Ingredienser:</h4>
+            <br />
+            <ul class="list-group w-100">
+
+                @foreach (var itemR in Model.RecepieProductView.Productslist)
+                {
+                    <li class="list-group-item">
+                        <label><input type="checkbox" checked="checked"> @itemR.ProductName  @itemR.ProductQuantity  @itemR.Measurement </label>
+                    </li>
+                }
+
+            </ul>
+        </div>
+
+        <div class="table">
+            <p class="text-black-50" style="text-align:left; padding: 10px;">Portioner:</p>
+            @{
+                var parmsparams = new Dictionary<string, string>
+                                        {
+                    { "id", Model.RecepieProductView.RecipeID.ToString() },
+                    { "portion", (Model.RecepieProductView.Portion + 1).ToString() }
+                };
+                var lowerparmsparams = new Dictionary<string, string>
+                                        {
+                    { "id", Model.RecepieProductView.RecipeID.ToString() },
+                    { "portion", (Model.RecepieProductView.Portion - 1 ).ToString() }
+                };
+            }
+            <input type="text" value="@Model.RecepieProductView.Portion" style="text-align: center; float:left; width:3%;" />
+            <br />
+            <br />
+            <a type="button" class="btn btn-danger" style=" text-align: right; float: left; margin-right: 1px;" asp-controller="Recipe" asp-action="ViewRecipe" asp-all-route-data="@lowerparmsparams">-</a>
+            <a type="button" class="btn btn-success" style="text-align: right; float: left;" asp-controller="Recipe" asp-action="ViewRecipe" asp-all-route-data="@parmsparams">+</a>
+            <br />
+            <br />
+
+        </div>
+    </div>
+</div>
+
+
 
 
 <a class="btn btn-outline-dark" asp-controller="Recipe" asp-action="Recipes" asp-route-id="default" role="button">Fortsätt handla</a>

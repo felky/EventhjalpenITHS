@@ -12,6 +12,7 @@ using EVTHJÄLPEN.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EVTHJÄLPEN.Services;
 
 namespace EVTHJÄLPEN
 {
@@ -35,6 +36,7 @@ namespace EVTHJÄLPEN
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSession();
+             services.AddSingleton<IRecipeService, RecipeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -17,4 +17,8 @@ namespace EVTHJÄLPEN.Models
 
         public List<RecipeSteps> StepList = new List<RecipeSteps>();
     }
+    public  class ViewProductAndReceipe : ViewProducts
+    {
+        public ViewProducts RecepieProductView { get; set; }
+    }
 }

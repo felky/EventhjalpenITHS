@@ -10,6 +10,7 @@ using Eventhjälpen.Models;
 using EVTHJÄLPEN.Data;
 using System.Data.SqlClient;
 using System.Data.Entity;
+using EVTHJÄLPEN.Services;
 
 namespace EVTHJÄLPEN.Controllers
 {
@@ -17,10 +18,11 @@ namespace EVTHJÄLPEN.Controllers
     {
         public int i { get; set; }
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private IRecipeService _recipeService; 
+        public HomeController(ILogger<HomeController> logger, IRecipeService recipeService)
         {
             _logger = logger;
+            _recipeService = recipeService; 
         }
 
         [HttpGet]
@@ -50,12 +52,19 @@ namespace EVTHJÄLPEN.Controllers
             return View();
         }
 
-        public IActionResult Varukorg(int ID, string Empty, int RemoveID, int ProductID, int Amount = 1)
+        public IActionResult Varukorg(int ID, string Empty, int RemoveID, int ProductID, int RecipeId, int Portion, int Amount = 1)
         {
-            ViewProducts vp = new ViewProducts();
-            var varukorg = Request.Cookies.SingleOrDefault(c => c.Key == "Varukorg");
 
-            if(Amount <= 0)
+            if (Portion == 0)
+                Portion = 4;
+
+            ViewProducts vpp = _recipeService.GetViewModelByRecipeId(RecipeId, Portion);
+            ViewProductAndReceipe vp = new ViewProductAndReceipe();
+            vp.RecepieProductView = vpp; 
+            var varukorg = Request.Cookies.SingleOrDefault(c => c.Key == "Varukorg");
+           
+
+            if (Amount <= 0)
             {
                 Amount = 0;
             }
@@ -183,10 +192,12 @@ namespace EVTHJÄLPEN.Controllers
                         vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
                         vp.Productslist.Add(si);
                     }
+
                     Response.Cookies.Append("Varukorg", cookieString, new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddMinutes(60.0) });
                 }
 
                 return View(vp);
+
             }
 
             return View(vp);
