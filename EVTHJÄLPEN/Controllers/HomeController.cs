@@ -55,8 +55,17 @@ namespace EVTHJÄLPEN.Controllers
         public IActionResult Varukorg(int ID, string Empty, int RemoveID, int ProductID, int RecipeId, int Portion, int Amount = 1)
         {
 
+            // todo: portion is comming from Recipecontroller
+            // todo: list of ingredient,(product: name quantity, measurement) 
+            // todo: modify/update the product list in cart page
+            // todo: show total order product in cart button
+            var amounts = new List<int>();
+            amounts.Add(Amount);
+
             if (Portion == 0)
                 Portion = 4;
+            if (Amount == 0)
+                Amount = 1;
 
             ViewProducts vpp = _recipeService.GetViewModelByRecipeId(RecipeId, Portion);
             ViewProductAndReceipe vp = new ViewProductAndReceipe();

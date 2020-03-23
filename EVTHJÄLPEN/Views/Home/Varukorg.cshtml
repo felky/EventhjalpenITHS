@@ -1,8 +1,8 @@
 ﻿@model ViewProductAndReceipe
-
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
 
 
 @{
@@ -39,16 +39,24 @@ else
         </div>
 
         <div class="row" style="padding:15px;">
-            <div class="col-md-6">
+            <div class="col-md-6 ">
                 <ul class="list-group w-100">
                     <p>
                         @item.ProductName
                         <br /><i>@item.Quantity</i>
-                        <br />
-                        <br />
-                        <a type="button" class="btn btn-danger" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@lowerparms">-</a>
-                        <input type="text" value="@item.Amount" style="text-align: center; width:4%;" />
-                        <a type="button" class="btn btn-success" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@parms">+</a>
+                        <br /><br />
+                        @* <a type="button" class="btn btn-danger" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@lowerparms">-</a>*@
+                        @*<input type="text" value="@item.Amount" style="text-align: center; width:4%;" />*@
+                        <div class="box">
+                            <input type="number" min="1" value="@item.Amount" style="text-align: center; width:7ch;" id="quantity" onkeyup="subTotal()">
+
+                        </div>
+
+                         @*<input type="number" value="@item.Amount" style="width: 7ch;">
+
+                        <a type="button" class="btn btn-success" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@parms">+</a>*@
+
+
                     </p>
                 </ul>
 
@@ -58,13 +66,13 @@ else
             <div class="col-md-6">
 
                 <ul class="list-group w-100" style="text-align: right">
-                    @item.Price Kr
+                    <p id="price">    @item.Price  Kr </p>
                 </ul>
                 <a class="btn btn-outline-danger" type="button" value="Ta bort" style="float:right; padding-top:2px;"
                    asp-controller="Home" asp-action="Varukorg" asp-route-RemoveID="@item.ProductID">
                     Ta bort
                 </a>
-
+                <input type="text" readonly style="background-color: #d6d8f5; font-size: 2ch;" id="subTotal" />
             </div>
         </div>
         <p style="border:1px; border-style:solid; border-color:#bcbcbc;"> </p>
@@ -78,15 +86,21 @@ else
 <p><b>TotalSumma:</b> @Math.Round(@Model.TotalSum, 2) Kr</p>
 
 <br />
+<div class="col-md-6">
 
+
+    <input type="hidden" id="txtSalt" />
+
+
+</div>
 
 
 <div class="container">
-    <h1 class="display-4">@Model.RecepieProductView.RecipeName</h1>
+    <h1 class="display-4">@Model.RecipeName</h1>
 
-    <hr class="my-4">
+    @*<hr class="my-4">
     <br />
-    <br />
+    <br />*@
 
     <div class="row" style="padding:15px;">
         <div class="col-md-6">
@@ -94,10 +108,10 @@ else
             <br />
             <ul class="list-group w-100">
 
-                @foreach (var itemR in Model.RecepieProductView.Productslist)
+                @foreach (var itemR in Model.Productslist)
                 {
                     <li class="list-group-item">
-                        <label><input type="checkbox" checked="checked"> @itemR.ProductName  @itemR.ProductQuantity  @itemR.Measurement </label>
+                        <label><input type="checkbox" checked="checked"> @itemR.ProductName  @itemR.ProductQuantity @itemR.Measurement </label>
                     </li>
                 }
 
@@ -108,17 +122,17 @@ else
             <p class="text-black-50" style="text-align:left; padding: 10px;">Portioner:</p>
             @{
                 var parmsparams = new Dictionary<string, string>
-                                        {
-                    { "id", Model.RecepieProductView.RecipeID.ToString() },
-                    { "portion", (Model.RecepieProductView.Portion + 1).ToString() }
+                                                                                                {
+                    { "id", Model.RecipeID.ToString() },
+                    { "portion", (Model.Portion + 1).ToString() }
                 };
                 var lowerparmsparams = new Dictionary<string, string>
-                                        {
-                    { "id", Model.RecepieProductView.RecipeID.ToString() },
-                    { "portion", (Model.RecepieProductView.Portion - 1 ).ToString() }
+                                                                                                {
+                    { "id", Model.RecipeID.ToString() },
+                    { "portion", (Model.Portion - 1 ).ToString() }
                 };
             }
-            <input type="text" value="@Model.RecepieProductView.Portion" style="text-align: center; float:left; width:3%;" />
+            <input type="text" value="@Model.Portion" style="text-align: center; float:left; width:3%;" />
             <br />
             <br />
             <a type="button" class="btn btn-danger" style=" text-align: right; float: left; margin-right: 1px;" asp-controller="Recipe" asp-action="ViewRecipe" asp-all-route-data="@lowerparmsparams">-</a>
@@ -144,7 +158,69 @@ else
     <a class="btn btn-outline-success" asp-area="Identity" asp-page="/Account/Login" asp-route-RouteID="-1">Bekräfta order</a>
 }
 
+<style>
+    /*style for -/+ button*/
+    .box {
+        position: absolute;
+        top: 77%;
+        left: 9%;
+        transform: translate(-50%,-50%);
+    }
+
+    input {
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        margin: 0 5px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,5);
+    }
+
+        input:hover {
+        }
+
+        input:focus {
+            background: #ff008b;
+            color: #fff;
+        }
+
+    button {
+        background: green;
+        color: #fff;
+        border: none;
+        outline: none;
+        padding: 0 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,5);
+    }
+
+        button:hover {
+            background: #ff008b;
+        }
+</style>
+
+@section scripts{
+    <script>
+    function subTotal(){
+    var price = document.getElementById("price").value;
+    var quantity = document.getElementById("quantity").value;
+    var subTotal = price * quantity;
+        document.getElementById("subTotal").value = subTotal;
+       
+    }
 
 
+    $(document).ready(function(){
+        $('#live_update').on('keyup', function(){
+            $('#user_radius').val($('#live_update').val());
+        });
+    });
+
+        $(function () {
+            $('input[type="number"]').niceNumber();
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+}
 
 
