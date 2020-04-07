@@ -45,18 +45,17 @@ else
                         @item.ProductName
                         <br /><i>@item.Quantity</i>
                         <br /><br />
-                              <div class="box">
-                                  <a type="button" class="btn btn-danger" value="@item.Amount" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@lowerparms">-</a>
-                                  @*<input type="text" value="@item.Amount" style="text-align: center; width:4%;" />*@
-                                  @*<div class="box">*@
-            <input type="text" min="1" value="@item.Amount"  id="quantity" onkeyup="subTotal()">
+                        @* <a type="button" class="btn btn-danger" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@lowerparms">-</a>*@
+                        @*<input type="text" value="@item.Amount" style="text-align: center; width:4%;" />*@
+                        <div class="box">
+                            <input type="number" min="1" value="@item.Amount" style="text-align: center; width:7ch;" id="quantity" onkeyup="subTotal()">
 
-        
+                        </div>
 
-                                  @*<input type="number" value="@item.Amount" style="width: 7ch;">*@
+                         @*<input type="number" value="@item.Amount" style="width: 7ch;">
 
-                                  <a type="button" class="btn btn-success" value="@item.Amount" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@parms">+</a>
-                              </div>
+                        <a type="button" class="btn btn-success" asp-controller="Home" asp-action="Varukorg" asp-all-route-data="@parms">+</a>*@
+
 
                     </p>
                 </ul>
@@ -133,7 +132,7 @@ else
                     { "portion", (Model.Portion - 1 ).ToString() }
                 };
             }
-            <input type="button" value="@Model.Portion" style="text-align: center; float:left; width:3%;" />
+            <input type="text" value="@Model.Portion" style="text-align: center; float:left; width:3%;" />
             <br />
             <br />
             <a type="button" class="btn btn-danger" style=" text-align: right; float: left; margin-right: 1px;" asp-controller="Recipe" asp-action="ViewRecipe" asp-all-route-data="@lowerparmsparams">-</a>
@@ -159,7 +158,7 @@ else
     <a class="btn btn-outline-success" asp-area="Identity" asp-page="/Account/Login" asp-route-RouteID="-1">Bekräfta order</a>
 }
 
-@*<style>
+<style>
     /*style for -/+ button*/
     .box {
         position: absolute;
@@ -197,11 +196,11 @@ else
         button:hover {
             background: #ff008b;
         }
-</style>*@
+</style>
 
 @section scripts{
     <script>
-    function subTotal(){ 
+    function subTotal(){
     var price = document.getElementById("price").value;
     var quantity = document.getElementById("quantity").value;
     var subTotal = price * quantity;
@@ -217,7 +216,7 @@ else
     });
 
         $(function () {
-            $('input[type="button"]').niceNumber();
+            $('input[type="number"]').niceNumber();
         });
 
     </script>
