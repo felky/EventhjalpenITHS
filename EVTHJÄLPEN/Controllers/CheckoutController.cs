@@ -74,6 +74,7 @@ namespace EVTHJÄLPEN.Controllers
                     si.Amount = item.Amo;
                     vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
                     vp.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    vp.Email = User.FindFirstValue(ClaimTypes.Name);
                     vp.Productslist.Add(si);
                 }
             }
