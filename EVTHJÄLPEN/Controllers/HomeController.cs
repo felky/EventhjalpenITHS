@@ -84,11 +84,9 @@ namespace EVTHJÄLPEN.Controllers
 
         public IActionResult Varukorg(int ID, string Empty, int RemoveID, int ProductID, string Apply)
         {
-            var varukorg = Request.Cookies.SingleOrDefault(c => c.Key == "Varukorg");
-            Response.Cookies.Delete("Varukorg");
             ViewProducts vp = new ViewProducts();
-            vp.Productslist.Clear();
-            vp.TotalSum = 0;
+
+            var varukorg = Request.Cookies.SingleOrDefault(c => c.Key == "Varukorg");
 
             if (RemoveID == 0)
             {
@@ -109,7 +107,7 @@ namespace EVTHJÄLPEN.Controllers
                     }
                     else
                     {
-                        cookieString = varukorg.Value + string.Join(",", recipeProductsIds);
+                         cookieString = varukorg.Value + string.Join(",", recipeProductsIds);
                     }
 
                     if (cookieString == "")
@@ -117,129 +115,115 @@ namespace EVTHJÄLPEN.Controllers
                         RemoveFromOrderdetails();
                     }
 
-                    if (cookieString.Length > 0)
+                    var productIds = cookieString.Split(",").Select(c => int.Parse(c));
+
+                    var Check = from e in ctx.Orderdetails
+                                select e;
+
+                    if (Check.Count() == 0)
                     {
-                        var productIds = cookieString.Split(",").Select(c => int.Parse(c));
+                        var products = from e in ctx.Products
+                                       where productIds.Contains(e.Id)
+                                       select e;
 
-                        var Check = from e in ctx.Orderdetails
-                                    select e;
-
-                        if (Check.Count() == 0)
-
+                        if (!cookieString.Equals(""))
                         {
-                            var products = from e in ctx.Products
-                                           where productIds.Contains(e.Id)
-                                           select e;
-
-                            if (!cookieString.Equals(""))
+                            foreach (var item in products)
                             {
-                                foreach (var item in products)
+                                Orderdetails od = new Orderdetails();
+                                od.ProductId = item.Id;
+                                od.Amount = 1;
+
+                                using (ApplicationDbContext c = new ApplicationDbContext())
                                 {
-                                    Orderdetails od = new Orderdetails();
-                                    od.ProductId = item.Id;
-                                    od.Amount = 1;
-
-                                    using (ApplicationDbContext c = new ApplicationDbContext())
-                                    {
-                                        if (!c.Orderdetails.Any(A => A.ProductId == item.Id))
-                                        {
-                                            c.Orderdetails.Add(od);
-                                            c.SaveChanges();
-                                        }
-                                    }
-
-                                    ShowIngrediens si = new ShowIngrediens();
-                                    si.ProductID = item.Id;
-                                    si.ProductName = item.ProductName;
-                                    si.Quantity = item.Quantity;
-                                    si.Price = item.Price;
-                                    si.Amount = 1;
-                                    vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
-                                    vp.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                                    vp.Productslist.Add(si);
-                                }
-                            }
-                        }
-
-                        else
-                        {
-
-                            using (ApplicationDbContext c = new ApplicationDbContext())
-                            {
-                                var modify = from m in c.Orderdetails
-                                             where m.ProductId == ProductID
-                                             select m;
-
-                                if (Apply == "Add")
-                                {
-                                    foreach (var items in modify)
-                                    {
-                                        items.Amount++;
-                                    }
-                                }
-                                else if (Apply == "Remove")
-                                {
-                                    foreach (var items in modify)
-                                    {
-                                        items.Amount--;
-
-                                        if (items.Amount == 0)
-                                        {
-                                            RemoveItem(ProductID, vp);
-                                            vp.StatusMessage = "Produkten har tagits bort";
-                                            return View(vp);
-                                        }
-                                    }
-                                }
-                                c.SaveChanges();
-
-
-                                foreach (var additem in productIds)
-                                {
-                                    Orderdetails od = new Orderdetails() { ProductId = additem, Amount = 1 };
-                                    if (!c.Orderdetails.Any(A => A.ProductId == additem))
+                                    if (!c.Orderdetails.Any(A => A.ProductId == item.Id))
                                     {
                                         c.Orderdetails.Add(od);
                                         c.SaveChanges();
                                     }
                                 }
 
+                                ShowIngrediens si = new ShowIngrediens();
+                                si.ProductID = item.Id;
+                                si.ProductName = item.ProductName;
+                                si.Quantity = item.Quantity;
+                                si.Price = item.Price;
+                                si.Amount = 1;
+                                vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
+                                vp.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                                vp.Productslist.Add(si);
                             }
-
-                            AddListValue(vp);
-
-
-                            Response.Cookies.Append("Varukorg", cookieString, new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddMinutes(60.0) });
-                            ctx.SaveChanges();
                         }
                     }
-                }
-                if (Empty == "Empty")
-                {
-                    using (ApplicationDbContext ctx = new ApplicationDbContext())
+                    else
                     {
-
-                        var delete = from e in ctx.Orderdetails
-                                     where e.OrdersId == null
-                                     select e;
-
-                        foreach (var item in delete)
+                        using (ApplicationDbContext c = new ApplicationDbContext())
                         {
-                            ctx.Orderdetails.Remove(item);
+                            var modify = from m in c.Orderdetails
+                                         where m.ProductId == ProductID
+                                         select m;
+
+                            if (Apply == "Add")
+                            {
+                                foreach (var items in modify)
+                                {
+                                    items.Amount++;
+                                }
+                            }
+                            else if (Apply == "Remove")
+                            {
+                                foreach (var items in modify)
+                                {
+                                    items.Amount--;
+
+                                    if (items.Amount == 0)
+                                    {
+                                        RemoveItem(ProductID, vp);
+                                        vp.StatusMessage = "Produkten har tagits bort";
+                                        return View(vp);
+                                    }
+                                }
+                            }
+                            c.SaveChanges();
+
+                            foreach (var additem in productIds)
+                            {
+                                Orderdetails od = new Orderdetails() { ProductId = additem, Amount = 1 };
+                                if (!c.Orderdetails.Any(A => A.ProductId == additem))
+                                {
+                                    c.Orderdetails.Add(od);
+                                    c.SaveChanges();
+                                }
+                            }
                         }
 
-                        ctx.SaveChanges();
-                        Response.Cookies.Delete("Varukorg");
-                        vp.Productslist.Clear();
-                        vp.TotalSum = 0;
-                        return View(vp);
+                        AddListValue(vp);
                     }
+
+                    Response.Cookies.Append("Varukorg", cookieString, new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddMinutes(60.0) });
+                    ctx.SaveChanges();
                 }
-                else if (RemoveID != 0)
+            }
+
+            if (Empty == "Empty")
+            {
+                using (ApplicationDbContext ctx = new ApplicationDbContext())
                 {
-                    RemoveItem(RemoveID, vp);
+                    foreach (var item in ctx.Orderdetails)
+                    {
+                        ctx.Orderdetails.Remove(item);
+                    }
+
+                    ctx.SaveChanges();
+                    Response.Cookies.Delete("Varukorg");
+                    vp.Productslist.Clear();
+                    vp.TotalSum = 0;
+                    return View(vp);
                 }
-                
+            }
+            else if (RemoveID != 0)
+            {
+                RemoveItem(RemoveID, vp);
             }
             return View(vp);
         }
@@ -248,8 +232,6 @@ namespace EVTHJÄLPEN.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
 
 
         // Methods ---------------------------------------------------------------------------------------------------------
@@ -351,7 +333,6 @@ namespace EVTHJÄLPEN.Controllers
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 var delete = from e in ctx.Orderdetails
-                             where e.OrdersId == null
                              select e;
 
                 foreach (var item in delete)
@@ -363,19 +344,3 @@ namespace EVTHJÄLPEN.Controllers
         }
     }
 }
-// bugg; Om dataasen har data och cookiestrignen är tom kmr det bli en krash -- cookiestringen raderas efter 60 min men datan i databasen kvarstår
-// kolla först om cookiestringen är tom, är den tom rensa databasen
-// ta bort i
-// bugg när man tar bort en produkt och sedan modifiera en annan
-// om amount = 0, ta bort varan
-//börja med att kolla på t.ex att initiera orderid i databasen
-
-//where userid = id i delete???
-
-//Kanske bara visa själva ordern utan produkter istället?
-// bugg om man t.ex lägger rödbeter 2 ggr och tar bort alla produkter kommer cookiestringen att innehålla värden(dubbel) medans db är tom
-// lösning: nånting med foreach träff på indexet remove???
-
-
-// göra så att man ser vilka produkter som tillhör vilket recept
-//ha en checkbox lista i ordersidan som t.ex säger "saker du inte har med men som finns i receptet" (senare)
