@@ -19,11 +19,12 @@ namespace EVTHJÄLPEN.Controllers
         {
             ViewProducts vp = new ViewProducts();
             AddListValue(vp);
-
+            
             return View(vp);
         }
         public IActionResult DoneOrder(string UserID, int SumToPay)
         {
+            Response.Cookies.Delete("Varukorg");
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 Orders o = new Orders();
@@ -75,9 +76,10 @@ namespace EVTHJÄLPEN.Controllers
                     vp.TotalSum += (decimal.ToDouble(si.Price) * si.Amount);
                     vp.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     vp.Email = User.FindFirstValue(ClaimTypes.Name);
+
                     vp.Productslist.Add(si);
                 }
-            }
+            }  
         }
     }
 }
